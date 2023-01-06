@@ -5,12 +5,6 @@
 #include <locale.h>
 #include <unistd.h>
 
-/***
- * http://cholla.mmto.org/computers/usb/OLD/tutorial_usbloger.html
- * https://github.com/robertalks/udev-examples
- * https://gist.github.com/VJSchneid/486c4d4b27b4474b37e3c9b1ddd557af
- * 
-*/
 
 int main (int argc, char *argv[])
 {
@@ -21,10 +15,10 @@ int main (int argc, char *argv[])
 
 	/* verify that an argument exist */
 	if (argc != 2) {
-        fprintf(stderr, "Usage: %s <devname>\n", argv[0]);
-        exit(1);
-    }
-	
+		fprintf(stderr, "Usage: %s <devname>\n", argv[0]);
+		exit(1);
+	}
+
 	/* create the udev object */
 	udev = udev_new();
 	if (!udev) {
@@ -32,7 +26,7 @@ int main (int argc, char *argv[])
 		exit(1);
 	}
 
-	/* create enumerate object */	
+	/* create enumerate object */
 	enumerate = udev_enumerate_new(udev);
 	if (!enumerate) {
 		fprintf(stderr, "Cannot create enumerate.\n");
@@ -41,7 +35,7 @@ int main (int argc, char *argv[])
 
 	udev_enumerate_add_match_subsystem(enumerate, "block");
 	udev_enumerate_scan_devices(enumerate);
-	
+
 	/* create a list of the devices */
 	devices = udev_enumerate_get_list_entry(enumerate);
 	if (!devices) {
@@ -62,12 +56,12 @@ int main (int argc, char *argv[])
 		if(!strcmp(argv[1], devnode)) {
 			printf("UUID\t\t: %s\n", udev_device_get_property_value(dev, "ID_FS_UUID"));
 			printf("LABEL\t\t: %s\n", udev_device_get_property_value(dev, "ID_FS_LABEL"));
-			printf("FSTYPE\t\t: %s\n", udev_device_get_property_value(dev, "ID_FS_TYPE"));			
+			printf("FSTYPE\t\t: %s\n", udev_device_get_property_value(dev, "ID_FS_TYPE"));
 			printf("PARTUUID\t: %s\n", udev_device_get_property_value(dev, "ID_PART_ENTRY_UUID"));
 			printf("PARTLABEL\t: %s\n", udev_device_get_property_value(dev, "ID_PART_ENTRY_NAME"));
-			printf("PARTNUM\t\t: %s\n", udev_device_get_property_value(dev, "ID_PART_ENTRY_NUMBER"));				
+			printf("PARTNUM\t\t: %s\n", udev_device_get_property_value(dev, "ID_PART_ENTRY_NUMBER"));
 			printf("DEVNAME\t\t: %s\n", udev_device_get_property_value(dev, "DEVNAME"));
-			printf("BLOCKDEVICE\t: %s\n", udev_device_get_sysname(dev));		
+			printf("BLOCKDEVICE\t: %s\n", udev_device_get_sysname(dev));
 		}
 
 		/* free dev */
@@ -79,5 +73,5 @@ int main (int argc, char *argv[])
 	/* free udev*/
 	udev_unref(udev);
 
-	return 0;       
+	return 0;
 }

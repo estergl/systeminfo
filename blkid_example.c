@@ -4,11 +4,6 @@
 #include <unistd.h>
 #include <blkid/blkid.h>
 
-/**
- * https://github.com/util-linux/util-linux/blob/master/misc-utils/lsblk-properties.c
- * https://github.com/util-linux/util-linux/blob/master/libblkid/src/superblocks/superblocks.c
- * https://github.com/util-linux/util-linux/blob/master/libblkid/src/partitions/partitions.c
-*/
 
 int main (int argc, char *argv[]) {
    blkid_probe pr;
@@ -27,7 +22,7 @@ int main (int argc, char *argv[]) {
 
    if (getuid() != 0) {
       fprintf(stderr, "no permissions to read from the device\n");
-      exit(1);      
+      exit(1);
    }
 
    pr = blkid_new_probe_from_filename(argv[1]);
@@ -46,13 +41,13 @@ int main (int argc, char *argv[]) {
       if (!blkid_probe_lookup_value(pr, "LABEL", &label, NULL))
          printf("LABEL\t\t:%s\n", label);
       if (!blkid_probe_lookup_value(pr, "TYPE", &fstype, NULL))
-         printf("FSTYPE\t\t:%s\n", fstype);         
+         printf("FSTYPE\t\t:%s\n", fstype);
       if (!blkid_probe_lookup_value(pr, "PART_ENTRY_NAME", &partlabel, NULL))
-         printf("PARTLABEL\t:%s\n", partlabel);   
+         printf("PARTLABEL\t:%s\n", partlabel);
       if (!blkid_probe_lookup_value(pr, "PART_ENTRY_UUID", &partuuid, NULL))
-         printf("PARTUUID\t:%s\n", partuuid);   
+         printf("PARTUUID\t:%s\n", partuuid);
       if (!blkid_probe_lookup_value(pr, "PART_ENTRY_NUMBER", &partnum, NULL))
-         printf("PARTNUM\t\t:%s\n", partnum);   
+         printf("PARTNUM\t\t:%s\n", partnum);
    }
 
    blkid_free_probe(pr);
